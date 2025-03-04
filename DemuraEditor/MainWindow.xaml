@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DemuraEditor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding DemuraEditor_Version}" Height="450" Width="800" WindowStartupLocation="CenterScreen" mah:ControlsHelper.ContentCharacterCasing="Lower">
+        Title="{Binding DemuraEditor_Version}" Height="450" Width="800" WindowStartupLocation="CenterScreen" mah:ControlsHelper.ContentCharacterCasing="Lower" Background="{x:Null}">
     <mah:MetroWindow.TitleTemplate>
         <DataTemplate>
             <StackPanel Orientation="Horizontal"
@@ -28,6 +28,64 @@
         </DataTemplate>
     </mah:MetroWindow.TitleTemplate>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Margin="5" Content="ReadEdit Test" Command="{Binding Test}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
+            <StackPanel  Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left">
+                    <RadioButton Content="1%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="3%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="5%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="10%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="20%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="30%" Margin="2" Background="{x:Null}"/>
+                    <RadioButton Content="40%" Margin="2" Background="{x:Null}"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0">
+                    <Button Command="{Binding Edit}" CommandParameter="Up" Width="80" Margin="0,5,0,5">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/White Up.png" Stretch="Uniform">
+                                <ImageBrush.Transform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform Y="1"/>
+                                    </TransformGroup>
+                                </ImageBrush.Transform>
+                            </ImageBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button Command="{Binding Edit}" CommandParameter="Dw" Width="80" Margin="0,5,0,5">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/White dwn.png" Stretch="Uniform">
+                                <ImageBrush.Transform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform Y="2"/>
+                                    </TransformGroup>
+                                </ImageBrush.Transform>
+                            </ImageBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Button Grid.Row="3" Margin="5" Content="Save Test" Command="{Binding Save}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
 
     </Grid>
 </mah:MetroWindow>

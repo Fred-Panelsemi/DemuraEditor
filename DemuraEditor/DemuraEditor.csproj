@@ -10,14 +10,19 @@
 
   <ItemGroup>
     <None Remove="Panelsemi white.png" />
+    <None Remove="White dwn.png" />
+    <None Remove="White Up.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Panelsemi white.png" />
+    <Resource Include="White dwn.png" />
+    <Resource Include="White Up.png" />
   </ItemGroup>
 
   <ItemGroup>
