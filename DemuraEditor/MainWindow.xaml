@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DemuraEditor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="{Binding DemuraEditor_Version}" Height="450" Width="800" WindowStartupLocation="CenterScreen" mah:ControlsHelper.ContentCharacterCasing="Lower" Background="{x:Null}">
+        Title="{Binding DemuraEditor_Version}" Height="800" Width="800" WindowStartupLocation="CenterScreen" Background="{x:Null}" mah:ControlsHelper.ContentCharacterCasing="Lower">
     <mah:MetroWindow.TitleTemplate>
         <DataTemplate>
             <StackPanel Orientation="Horizontal"
@@ -22,7 +22,7 @@
                 <Border Margin="10,2,0,2"
 		CornerRadius="3"
 		Background="#3C3C3C">
-                    <TextBlock Padding="5,2.5,5,2.5" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Padding="5,2.5,5,2.5" Text="{TemplateBinding Content}" mah:ControlsHelper.ContentCharacterCasing="Lower"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </StackPanel>
         </DataTemplate>
@@ -35,23 +35,134 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button Margin="5" Content="ReadEdit Test" Command="{Binding Test}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
-        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
+        <GroupBox Grid.RowSpan="2" Margin="5" Grid.ColumnSpan="4" Header="檔案設定">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <CheckBox Content="是否備份原始檔" Margin="5,0,0,0" HorizontalAlignment="Left" FlowDirection="RightToLeft"/>
+                <Border Grid.Row="1">
+                    <StackPanel>
+                        
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Edit" Margin="5" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Margin="5" Grid.Column="0" Background="#FF84A59E">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="調整模式" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                        <Border>
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <RadioButton IsChecked="True" Command="{Binding ModeChoice}" CommandParameter="Total" Content="整機邊框調整" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                <RadioButton Command="{Binding ModeChoice}" CommandParameter="MTB" Content="MTB邊框調整 " Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                            </WrapPanel>
+                        </Border>
+                        <Separator Background="#FFFFFEFE" Margin="5,5,5,5"/>
+                        <Border>
+                            <Grid>
+                                <Border >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <RadioButton Visibility="{Binding TotalBounding}" Grid.Column="0" Grid.ColumnSpan="2" Content="左側" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <RadioButton Visibility="{Binding TotalBounding}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="右側" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <RadioButton Visibility="{Binding TotalBounding}" Grid.Column="2" Grid.ColumnSpan="2" Content="上側" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <RadioButton Visibility="{Binding TotalBounding}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="下側" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X1L" Grid.Column="0" Content="X1L" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X1R" Grid.Row="1"  Content="X1R " Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X2L" Grid.Column="1" Content="X2L" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X2R" Grid.Column="1" Grid.Row="1"  Content="X2R " Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X3L" Grid.Column="2" Content="X3L" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X3R" Grid.Column="2" Grid.Row="1"  Content="X3R " Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X4L" Grid.Column="3" Content="X4L" Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                        <RadioButton Visibility="{Binding MTBBounding}" Command="{Binding ChoiceBounding}" CommandParameter="X4R" Grid.Column="3" Grid.Row="1"  Content="X4R " Margin="5,2,5,2" Background="{x:Null}" Foreground="Black"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <Separator Background="#FFFFFEFE" Margin="5,5,5,5"/>
+                        <Image Margin="5" Width="230" Height="110"/>
+                    </StackPanel>
+                </Border>
+                <Border Margin="5" Grid.Column="1" Background="#FF654242">
+                    <StackPanel Orientation="Vertical">
+                        <Border Margin="0,5,0,5">
+                            <Grid>
+                                <WrapPanel>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="1"  Content="1% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="3"  Content="3% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="5"  Content="5% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="8"  Content="8% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="10"  Content="10%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="20"  Content="20%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="30"  Content="30%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="40"  Content="40%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <Rectangle Height="1" Width="240" Fill="White" Margin="5,5,5,5"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-1"  Content="-1% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-3"  Content="-3% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-5"  Content="-5% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-8"  Content="-8% " Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-10"  Content="-10%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-20"  Content="-20%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-30"  Content="-30%" Margin="2" Background="{x:Null}" Width="60"/>
+                                    <RadioButton Command="{Binding ValueButton}" CommandParameter="-40"  Content="-40%" Margin="2" Background="{x:Null}" Width="60"/>
+                                </WrapPanel>
+                            </Grid>
+                        </Border>
+                        <Border Margin="0,5,0,5" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBox Text="{Binding ChangeValue}" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="25" Width="80"/>
+                                <TextBlock Text="%" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,5,0,5" >
+                            <Button  Content="變更Table" Background="#FF0D801C" mah:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,5,0"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2">
+                   
+                </Border>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Column="1" Grid.Row="6" Margin="5" Content="ReadEdit Test" Command="{Binding Test}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        
+        <Border Grid.Column="0" Grid.Row="4" Grid.RowSpan="2" >
             <StackPanel  Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left">
-                    <RadioButton Content="1%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="3%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="5%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="10%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="20%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="30%" Margin="2" Background="{x:Null}"/>
-                    <RadioButton Content="40%" Margin="2" Background="{x:Null}"/>
+                    
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0">
                     <Button Command="{Binding Edit}" CommandParameter="Up" Width="80" Margin="0,5,0,5">
@@ -85,7 +196,7 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Button Grid.Row="3" Margin="5" Content="Save Test" Command="{Binding Save}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
+        <Button Grid.Row="6" Margin="5" Content="Save Test" Command="{Binding Save}" mah:ControlsHelper.ContentCharacterCasing="Normal"/>
 
     </Grid>
 </mah:MetroWindow>
