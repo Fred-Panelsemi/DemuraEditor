@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,7 @@ namespace DemuraEditor.Editor
         private static string UID_Path = @"C:\UID";
         private string UID_Target_Path = "";
         private string UID_Target_Table = "";
+        public string GenBinName = "";
 
         // 選取要進行更改的Table並將其資料備份於 【C:\DemuraEditor_BackUp】中
         public void OpenDemuraTable()
@@ -82,6 +84,7 @@ namespace DemuraEditor.Editor
             string folderName = di.Parent.Name;
             // 在 C槽 的UID 資料夾中 建立相應可以進行GenBin的格式檔案
             UID_Target_Path = UID_Path + $"//{folderName.Replace("_d1", "")}//{folderName}//Unitary";
+            GenBinName = folderName.Replace("_d1", "");
             // 如果目標資料夾不存在，則建立
             if (!Directory.Exists(UID_Target_Path))
             {
@@ -94,16 +97,21 @@ namespace DemuraEditor.Editor
             // 複製檔案並貼到創立的UID內的目標資料夾
             foreach (string file in files)
             {
-                // 取得檔案名稱
                 string fileName = System.IO.Path.GetFileName(file);
-                // 建立目標檔案完整路徑
                 string destFile = System.IO.Path.Combine(UID_Target_Path, fileName);
-                // 複製檔案，若目標檔案存在則覆蓋
-                File.Copy(file, destFile, true);
+
+                // 使用 FileStream 進行安全複製
+                using (FileStream sourceStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (FileStream destStream = new FileStream(destFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    sourceStream.CopyTo(destStream);
+                }
             }
             // 將新資料夾的位置與原來Table的檔名組合 組成目標Table的
             UID_Target_Table = UID_Target_Path + $"//{Original_UDMR_Name}";
-            MessageBox.Show(UID_Target_Table);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            ImportTxt();
         }
 
         public void ImportTxt()
@@ -120,9 +128,10 @@ namespace DemuraEditor.Editor
 
         public void ExportTxt()
         {
-            using (StreamWriter writer = new StreamWriter(@"C:\UID\Primaryplus_NGK_No1_G22\Primaryplus_NGK_No1_G22_d1\Unitary\Primaryplus_NGK_No1_G22.Udmr"))
+            string path = UID_Target_Table;
+            using (StreamWriter writer = new StreamWriter(path))
             {
-                foreach (var item in arrayStr)
+                foreach (var item in arrayStr_CanChange)
                 {
                     writer.WriteLine(item);
                 }
@@ -130,22 +139,39 @@ namespace DemuraEditor.Editor
             GC.Collect();
         }
 
-        public void Edit(int ModeFlag, int XBp, string UpDw, int Persent)
+        public void RecoverChangeTable()
+        {
+            Array.Copy(arrayStr, arrayStr_CanChange, arrayStr.Length);
+        }
+
+        public void Open_C_UID_Folder()
+        {
+            string strPath = @"C:\UID";
+            Process.Start("explorer.exe", @"C:\UID");
+        }
+
+        public void Edit(int ModeFlag, int XBp, int Persent)
         {
             // 這邊是更改垂直的一條Pixel
             switch (ModeFlag)
             {
                 case 1:
+                    
                     for (int i = Table_Total_1[XBp][0]; i < Table_Total_1[XBp][1]; i = i + Table_Total_1[XBp][2])
                     {
+                        // 255 階
                         ChangeStringValue(ref arrayStr_CanChange[i], Persent);
                     }
                     break;
                 case 2:
                     for (int i = Table_MTB_1[XBp][0]; i < Table_MTB_1[XBp][1]; i = i + Table_MTB_1[XBp][2])
                     {
+                        // 255 階
                         ChangeStringValue(ref arrayStr_CanChange[i], Persent);
                     }
+                    break;
+                case 3:
+
                     break;
             }
         }
@@ -193,8 +219,5 @@ namespace DemuraEditor.Editor
             {7,new int[]{726,518406, 960 } },
             {8,new int[]{ 965 ,518406, 960 } }
         };
-
-        // Tip
-        // 
     }
 }

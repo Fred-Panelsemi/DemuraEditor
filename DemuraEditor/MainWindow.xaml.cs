@@ -25,4 +25,8 @@ namespace DemuraEditor
             this.DataContext = mainProcess;
         }
     }
+
+
+
+   
 }
